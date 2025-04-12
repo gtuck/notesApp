@@ -14,7 +14,9 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-textarea, input[type="email"], input[type="password"] {
+textarea,
+input[type="email"],
+input[type="password"] {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
@@ -33,4 +35,13 @@ ul {
 li {
   padding: 0.5rem;
   border-bottom: 1px solid #ccc;
+}
+
+
+li[data-color] {
+  background-color: var(--note-color, #fff);
+  border-left: 6px solid #ccc;
+  margin-bottom: 10px;
+  padding: 1rem;
+  border-radius: 6px;
 }

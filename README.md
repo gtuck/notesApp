@@ -1,12 +1,12 @@
-# Supabase Secure Notes App
+# Supabase Secure NotesApp
 
-This is a simple secure Notes App using GitHub Pages for static hosting and Supabase for backend services (database + authentication).
+This is a simple secure notes app using GitHub Pages for static hosting and Supabase for backend services (database + authentication).
 
 ## Features
 - Email/password authentication
 - Post messages
-- View all messages with author emails
-- Delete your own messages
+- View, tag, and filter notes with author emails
+- Edit, delete, tag, and color-code your own notes
 
 ## 🔧 Setup Guide
 
@@ -125,4 +125,4 @@ Your live site will appear at:
 
 ### ✅ Done!
 
-You're now running a fully deployed, authenticated, and user-specific Notes App powered by Supabase and GitHub Pages!
+You're now running a fully deployed, authenticated, and user-specific message board powered by Supabase and GitHub Pages!

@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Notes App</title>
+  <title>Secure NotesApp</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 
 <body>
   <div class="container">
-    <h1>🔐 Notes App</h1>
+    <h1>📝 Secure NotesApp</h1>
 
     <div id="auth-section">
       <div id="auth-form">
@@ -25,9 +25,13 @@
     </div>
 
     <form id="message-form" style="display:none;">
-      <textarea id="message-input" placeholder="Type your message..." required></textarea>
-      <button type="submit">Send</button>
+      <textarea id="message-input" placeholder="Type your note..." required></textarea>
+      <input type="text" id="note-tag" placeholder="Tag (e.g. work, idea)" />
+      <input type="color" id="note-color" value="#ffffff" />
+      <button type="submit">Save Note</button>
     </form>
+
+    <input type="text" id="search-input" placeholder="Search notes..." />
 
     <ul id="message-list"></ul>
   </div>

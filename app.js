@@ -1,12 +1,14 @@
 const SUPABASE_URL = 'https://dbolbumwkmmhubctnmur.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRib2xidW13a21taHViY3RubXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0NjIyNDUsImV4cCI6MjA2MDAzODI0NX0.9Q_BsQ2vmW2ZSAy6WUz7123ONvR8LkqUj1_JK0rMtrw';
 
-
 // Create a Supabase client instance using the project URL and anon key
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // UI references
 const messageForm = document.getElementById('message-form');
+const tagInput = document.getElementById('note-tag');
+const colorInput = document.getElementById('note-color');
+const searchInput = document.getElementById('search-input');
 const messageInput = document.getElementById('message-input');
 const messageList = document.getElementById('message-list');
 const signOutBtn = document.getElementById('sign-out');
@@ -57,7 +59,7 @@ signOutBtn.addEventListener('click', async () => {
 client.auth.getSession().then(({ data: { session } }) => {
   if (session) {
     currentUser = session.user;
-    setupUserUI();
+    setupUserUI(); searchInput.addEventListener('input', loadMessages);
   }
 });
 
@@ -66,7 +68,7 @@ client.auth.getSession().then(({ data: { session } }) => {
  */
 client.auth.onAuthStateChange((_event, session) => {
   currentUser = session?.user || null;
-  setupUserUI();
+  setupUserUI(); searchInput.addEventListener('input', loadMessages);
 });
 
 /**
@@ -94,17 +96,22 @@ function setupUserUI() {
 async function loadMessages() {
   const { data, error } = await client
     .from('messages')
-    .select('id, content, created_at, user_id, users ( email )')
+    .select('id, content, created_at, tag, color, user_id, users ( email )')
     .order('created_at', { ascending: false });
 
   messageList.innerHTML = '';
 
   data?.forEach(msg => {
     const li = document.createElement('li');
+    const searchTerm = searchInput.value.toLowerCase();
+    if (searchTerm && !(msg.content.toLowerCase().includes(searchTerm) || (msg.tag || '').toLowerCase().includes(searchTerm))) return;
+    li.dataset.color = msg.color || "#ffffff";
+    li.style.setProperty('--note-color', msg.color || "#ffffff");
     const userEmail = msg.users?.email || 'anonymous';
-    li.textContent = `[${userEmail}] ${msg.content}`;
+    const timestamp = new Date(msg.created_at).toLocaleString();
+    li.innerHTML = `<strong>${userEmail}</strong>: ${msg.content} <em>[${msg.tag || ''}]</em><br><small>${timestamp}</small>`;
 
-    // Only show delete button if the message belongs to the current user
+    // Add Edit and Delete buttons for the user's own messages
     if (currentUser && currentUser.id === msg.user_id) {
       const delBtn = document.createElement('button');
       delBtn.textContent = '🗑️';
@@ -122,6 +129,20 @@ async function loadMessages() {
           }
         }
       };
+      // Create edit button
+      const editBtn = document.createElement('button');
+      editBtn.textContent = '✏️';
+      editBtn.style.marginLeft = '10px';
+      editBtn.onclick = () => {
+        const newContent = prompt('Edit your note:', msg.content);
+        if (newContent && newContent.trim() !== '') {
+          client.from('messages')
+            .update({ content: newContent.trim() })
+            .eq('id', msg.id)
+            .then(() => loadMessages());
+        }
+      };
+      li.appendChild(editBtn);
       li.appendChild(delBtn);
     }
 
@@ -140,12 +161,12 @@ messageForm.addEventListener('submit', async (e) => {
 
   const { error } = await client
     .from('messages')
-    .insert([{ content, user_id: currentUser.id }]);
+    .insert([{ content, tag: tagInput.value.trim(), color: colorInput.value, user_id: currentUser.id }]);
 
   if (error) {
     alert('Send failed: ' + error.message);
   } else {
-    messageInput.value = '';
+    messageInput.value = ''; tagInput.value = ''; colorInput.value = '#ffffff';
     loadMessages();
   }
 });
