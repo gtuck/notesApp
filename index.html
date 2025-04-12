@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Message Board</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Secure Message Board</h1>
+
+    <div id="auth-section">
+      <div id="auth-form">
+        <input type="email" id="auth-email" placeholder="Email" />
+        <input type="password" id="auth-password" placeholder="Password" />
+        <button id="sign-up">Sign Up</button>
+        <button id="log-in">Log In</button>
+      </div>
+      <button id="sign-out" style="display:none;">Sign Out</button>
+      <span id="user-email"></span>
+    </div>
+
+    <form id="message-form" style="display:none;">
+      <textarea id="message-input" placeholder="Type your message..." required></textarea>
+      <button type="submit">Send</button>
+    </form>
+
+    <ul id="message-list"></ul>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
