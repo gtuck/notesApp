@@ -95,8 +95,6 @@ function setupUserUI() {
   loadMessages();
 }
 
-}
-
 /**
  * Load all messages from the Supabase 'messages' table
  * Displays the message content and the user's email
