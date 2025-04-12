@@ -1,6 +1,6 @@
-# Supabase Secure Message Board
+# Supabase Secure Notes App
 
-This is a simple secure message board using GitHub Pages for static hosting and Supabase for backend services (database + authentication).
+This is a simple secure Notes App using GitHub Pages for static hosting and Supabase for backend services (database + authentication).
 
 ## Features
 - Email/password authentication
@@ -125,4 +125,4 @@ Your live site will appear at:
 
 ### ✅ Done!
 
-You're now running a fully deployed, authenticated, and user-specific message board powered by Supabase and GitHub Pages!
+You're now running a fully deployed, authenticated, and user-specific Notes App powered by Supabase and GitHub Pages!
