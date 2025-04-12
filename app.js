@@ -84,6 +84,7 @@ function setupUserUI() {
     userEmailSpan.textContent = `Signed in as ${currentUser.email}`;
     messageForm.style.display = 'block';
     authForm.style.display = 'none'; // Hide login/signup form
+    signUpBtn.style.display = 'none'; // Hide sign-up button
   } else {
     // User is not signed in
     signOutBtn.style.display = 'none';

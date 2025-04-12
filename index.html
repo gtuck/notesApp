@@ -19,16 +19,13 @@
       <h1 class="title is-3 has-text-centered">📝 Secure NotesApp</h1>
 
       <!-- Auth Section -->
-      <div id="auth-section" class="box">
-        <div id="auth-form">
+      <div id="auth-section" class="section">
+        <div id="auth-form" class="box">
           <div class="field">
-            <p class="control has-icons-left has-icons-right">
+            <p class="control has-icons-left">
               <input class="input" type="email" name="auth-email" id="auth-email" placeholder="Email">
               <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
-              </span>
-              <span class="icon is-small is-right">
-                <i class="fas fa-check"></i>
               </span>
             </p>
           </div>
@@ -48,6 +45,7 @@
             </p>
           </div>
         </div>
+        <hr>
         <div class="buttons">
           <button class="button is-danger is-small" id="sign-out" style="display:none;">Sign Out</button>
           <button class="button is-primary is-small" id="sign-up">Sign Up</button>
@@ -60,7 +58,7 @@
       <!-- Message Form -->
       <form id="message-form" class="box" style="display:none;">
         <h2 class="subtitle is-5">Post a note:</h2>
-
+        
         <div class="field">
           <div class="control">
             <textarea class="textarea" id="message-input" placeholder="Type your note..." required></textarea>
