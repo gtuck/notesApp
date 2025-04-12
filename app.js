@@ -76,16 +76,25 @@ client.auth.onAuthStateChange((_event, session) => {
  * Shows or hides message form and logout button
  */
 function setupUserUI() {
+  const authForm = document.getElementById('auth-form');
+
   if (currentUser) {
+    // User is signed in
     signOutBtn.style.display = 'inline';
     userEmailSpan.textContent = `Signed in as ${currentUser.email}`;
     messageForm.style.display = 'block';
+    authForm.style.display = 'none'; // Hide login/signup form
   } else {
+    // User is not signed in
     signOutBtn.style.display = 'none';
     userEmailSpan.textContent = '';
     messageForm.style.display = 'none';
+    authForm.style.display = 'block'; // Show login/signup form
   }
+
   loadMessages();
+}
+
 }
 
 /**
