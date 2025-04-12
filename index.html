@@ -22,19 +22,30 @@
       <div id="auth-section" class="box">
         <div id="auth-form">
           <div class="field">
-            <div class="control">
-              <input class="input" type="email" id="auth-email" placeholder="Email" />
-            </div>
+            <p class="control has-icons-left has-icons-right">
+              <input class="input" type="email" name="auth-email" id="auth-email" placeholder="Email">
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </p>
           </div>
           <div class="field">
-            <div class="control">
-              <input class="input" type="password" id="auth-password" placeholder="Password" />
-            </div>
+            <p class="control has-icons-left">
+              <input class="input" type="password" name="auth-password" id="auth-password" placeholder="Password">
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
           </div>
           <div class="field">
-            <div class="control">
-              <button class="button is-link" id="log-in">Log In</button>
-            </div>
+            <p class="control">
+              <button id="log-in" class="button is-success">
+                Login
+              </button>
+            </p>
           </div>
         </div>
         <div class="buttons">
