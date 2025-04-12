@@ -1,8 +1,11 @@
 const SUPABASE_URL = 'https://dbolbumwkmmhubctnmur.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRib2xidW13a21taHViY3RubXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0NjIyNDUsImV4cCI6MjA2MDAzODI0NX0.9Q_BsQ2vmW2ZSAy6WUz7123ONvR8LkqUj1_JK0rMtrw';
 
+
+// Create a Supabase client instance using the project URL and anon key
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// UI references
 const messageForm = document.getElementById('message-form');
 const messageInput = document.getElementById('message-input');
 const messageList = document.getElementById('message-list');
@@ -13,8 +16,13 @@ const passwordInput = document.getElementById('auth-password');
 const signUpBtn = document.getElementById('sign-up');
 const logInBtn = document.getElementById('log-in');
 
+// Store the currently logged-in user
 let currentUser = null;
 
+/**
+ * Sign up button click event
+ * Registers a new user with Supabase Auth using email and password
+ */
 signUpBtn.addEventListener('click', async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
@@ -23,6 +31,10 @@ signUpBtn.addEventListener('click', async () => {
   else alert('Account created! Check your inbox to confirm.');
 });
 
+/**
+ * Log in button click event
+ * Authenticates user using Supabase Auth with email and password
+ */
 logInBtn.addEventListener('click', async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
@@ -30,11 +42,18 @@ logInBtn.addEventListener('click', async () => {
   if (error) alert('Login error: ' + error.message);
 });
 
+/**
+ * Sign out button click event
+ * Logs the user out and reloads the page
+ */
 signOutBtn.addEventListener('click', async () => {
   await client.auth.signOut();
   location.reload();
 });
 
+/**
+ * Check if a user is already logged in when the app loads
+ */
 client.auth.getSession().then(({ data: { session } }) => {
   if (session) {
     currentUser = session.user;
@@ -42,11 +61,18 @@ client.auth.getSession().then(({ data: { session } }) => {
   }
 });
 
+/**
+ * Monitor authentication state changes (login, logout)
+ */
 client.auth.onAuthStateChange((_event, session) => {
   currentUser = session?.user || null;
   setupUserUI();
 });
 
+/**
+ * Setup the UI based on the login status
+ * Shows or hides message form and logout button
+ */
 function setupUserUI() {
   if (currentUser) {
     signOutBtn.style.display = 'inline';
@@ -60,6 +86,11 @@ function setupUserUI() {
   loadMessages();
 }
 
+/**
+ * Load all messages from the Supabase 'messages' table
+ * Displays the message content and the user's email
+ * Adds a delete button if the message belongs to the logged-in user
+ */
 async function loadMessages() {
   const { data, error } = await client
     .from('messages')
@@ -67,11 +98,13 @@ async function loadMessages() {
     .order('created_at', { ascending: false });
 
   messageList.innerHTML = '';
+
   data?.forEach(msg => {
     const li = document.createElement('li');
     const userEmail = msg.users?.email || 'anonymous';
     li.textContent = `[${userEmail}] ${msg.content}`;
 
+    // Only show delete button if the message belongs to the current user
     if (currentUser && currentUser.id === msg.user_id) {
       const delBtn = document.createElement('button');
       delBtn.textContent = '🗑️';
@@ -96,6 +129,10 @@ async function loadMessages() {
   });
 }
 
+/**
+ * Handle message form submission
+ * Sends a new message to the Supabase 'messages' table
+ */
 messageForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const content = messageInput.value.trim();
