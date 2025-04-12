@@ -20,24 +20,29 @@
 
       <!-- Auth Section -->
       <div id="auth-section" class="box">
-        <div id="auth-form" class="field is-grouped is-grouped-multiline mb-4">
-          <p class="control is-expanded">
-            <input class="input" type="email" id="auth-email" placeholder="Email" />
-          </p>
-          <p class="control is-expanded">
-            <input class="input" type="password" id="auth-password" placeholder="Password" />
-          </p>
-          <p class="control">
-            <button class="button is-link" id="log-in">Log In</button>
-          </p>
+        <div id="auth-form">
+          <div class="field">
+            <div class="control">
+              <input class="input" type="email" id="auth-email" placeholder="Email" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input" type="password" id="auth-password" placeholder="Password" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button class="button is-link" id="log-in">Log In</button>
+            </div>
+          </div>
         </div>
-
         <div class="buttons">
           <button class="button is-danger is-small" id="sign-out" style="display:none;">Sign Out</button>
           <button class="button is-primary is-small" id="sign-up">Sign Up</button>
         </div>
 
-        <p id="user-email" class="has-text-weight-semibold mt-2"></p>
+        <p id="user-email"></p>
         <hr>
       </div>
 
