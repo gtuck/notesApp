@@ -1,6 +1,5 @@
 const SUPABASE_URL = 'https://dbolbumwkmmhubctnmur.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRib2xidW13a21taHViY3RubXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0NjIyNDUsImV4cCI6MjA2MDAzODI0NX0.9Q_BsQ2vmW2ZSAy6WUz7123ONvR8LkqUj1_JK0rMtrw';
-
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // UI References
@@ -126,12 +125,13 @@ async function loadMessages() {
           const newContent = prompt('Edit your note:', msg.content);
           if (newContent && newContent.trim()) {
             try {
-              const { error } = await client
+              const { data, error } = await client
                 .from('messages')
                 .update({ content: newContent.trim() })
-                .eq('id', msg.id);
+                .eq('id', msg.id)
+                .select();
               if (error) throw error;
-              loadMessages();
+              if (data) loadMessages();
             } catch (err) {
               alert('Update failed: ' + err.message);
             }
