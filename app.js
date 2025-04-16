@@ -1,5 +1,6 @@
 const SUPABASE_URL = 'https://dbolbumwkmmhubctnmur.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRib2xidW13a21taHViY3RubXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0NjIyNDUsImV4cCI6MjA2MDAzODI0NX0.9Q_BsQ2vmW2ZSAy6WUz7123ONvR8LkqUj1_JK0rMtrw';
+
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // UI References
@@ -73,12 +74,13 @@ function setupUI() {
   const authForm = document.getElementById('auth-form');
   if (currentUser) {
     signOutBtn.style.display = 'inline';
+    signUpBtn.style.display = 'none';
     userEmailSpan.textContent = `Signed in as ${currentUser.email}`;
     messageForm.style.display = 'block';
     authForm.style.display = 'none';
-    signUpBtn.style.display = 'none';
   } else {
     signOutBtn.style.display = 'none';
+    signUpBtn.style.display = 'inline';
     userEmailSpan.textContent = '';
     messageForm.style.display = 'none';
     authForm.style.display = 'block';
