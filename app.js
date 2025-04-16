@@ -1,8 +1,6 @@
 const SUPABASE_URL = 'https://dbolbumwkmmhubctnmur.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRib2xidW13a21taHViY3RubXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0NjIyNDUsImV4cCI6MjA2MDAzODI0NX0.9Q_BsQ2vmW2ZSAy6WUz7123ONvR8LkqUj1_JK0rMtrw';
 
-//const SUPABASE_URL = 'https://dbolbumwkmmhubctnmur.supabase.co';
-//const SUPABASE_KEY = 'your-anon-key-here'; // Replace with anon key for production
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // UI References
@@ -124,10 +122,19 @@ async function loadMessages() {
         const editBtn = document.createElement('button');
         editBtn.className = 'button is-small is-info mr-2';
         editBtn.textContent = '✏️';
-        editBtn.onclick = () => {
+        editBtn.onclick = async () => {
           const newContent = prompt('Edit your note:', msg.content);
           if (newContent && newContent.trim()) {
-            client.from('messages').update({ content: newContent.trim() }).eq('id', msg.id).then(loadMessages);
+            try {
+              const { error } = await client
+                .from('messages')
+                .update({ content: newContent.trim() })
+                .eq('id', msg.id);
+              if (error) throw error;
+              loadMessages();
+            } catch (err) {
+              alert('Update failed: ' + err.message);
+            }
           }
         };
 
