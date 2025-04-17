@@ -12,9 +12,9 @@ A secure notes app built with **Supabase** for authentication and database manag
 - 🎨 Choose a background color for each note  
 - 🕒 View timestamps for note creation  
 - 🔍 Search and filter notes by content or tag  
-- 🔔 Toast notifications for success and error feedback (configured in `style.css`) citeturn1file6  
-- ✅ Conditional display of **Sign Up**, **Log In**, and **Sign Out** buttons based on authentication state (handled in `index.html`) citeturn0file0  
-- ⚡ Responsive UI using Bulma CSS, BulmaJS, and FontAwesome citeturn0file0
+- 🔔 Toast notifications for success and error feedback (configured in `style.css`)   
+- ✅ Conditional display of **Sign Up**, **Log In**, and **Sign Out** buttons based on authentication state (handled in `index.html`)   
+- ⚡ Responsive UI using Bulma CSS, BulmaJS, and FontAwesome 
 
 ---
 
@@ -133,7 +133,7 @@ Ensure your `index.html` includes:
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 ```
 
-This adds Bulma CSS for layout, BulmaJS for toast notifications, and FontAwesome icons citeturn0file0.
+This adds Bulma CSS for layout, BulmaJS for toast notifications, and FontAwesome icons .
 
 ---
 
