@@ -77,10 +77,16 @@ logInBtn.addEventListener('click', async () => {
 signOutBtn.addEventListener('click', async () => {
   try {
     const { error } = await client.auth.signOut();
-    if (error) throw error;
-    location.reload();
+    // Supabase v2 will error if there's no active session — ignore that
+    if (error && error.code !== 'session_not_found') {
+      throw error;
+    }
   } catch (err) {
-    showToast('Sign‑out failed: ' + err.message, 'is-danger');
+    console.error('Sign‑out error (ignored if no session):', err);
+    showToast(`Sign‑out failed: ${err.message}`, 'is-danger');
+  } finally {
+    // Always reload, even if the session was already gone
+    location.reload();
   }
 });
 
