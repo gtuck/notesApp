@@ -38,7 +38,7 @@ let editMessageId = null;
 function showToast(msg, type = 'is-primary is-light') {
   toastContainer.textContent = msg;
   toastContainer.className = `notification ${type}`;
-  // toastContainer.style.display = 'block';
+  toastContainer.style.display = 'block';
   setTimeout(() => (toastContainer.style.display = 'none'), 3000);
 }
 
