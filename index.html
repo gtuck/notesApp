@@ -1,82 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Secure NotesApp</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@vizuaalog/bulmajs@0/dist/bulma.min.js"></script>
+  <title>📝 Secure NotesApp</title>
+  <!-- Bulma CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
+  />
   <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    /* Toast positioning */
+    #toast-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      display: none;
+    }
+  </style>
 </head>
-
 <body>
   <section class="section">
     <div class="container">
-      <!-- Top Right Buttons -->
-      <div class="has-text-right mb-3">
-        <button id="sign-out" class="button is-danger is-small" style="display:none;">Sign Out</button>
-        <button id="sign-up" class="button is-primary is-small" style="display:none;">Sign Up</button>
+      <h1 class="title is-3 has-text-centered">📝 Secure NotesApp</h1>
+
+      <!-- Toast Notification -->
+      <div id="toast-container" class="notification"></div>
+
+      <!-- Auth Form -->
+      <div id="auth-form" class="box">
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control">
+            <input id="auth-email" class="input" type="email" placeholder="you@domain.com" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control">
+            <input
+              id="auth-password"
+              class="input"
+              type="password"
+              placeholder="••••••"
+            />
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            <button id="sign-up" class="button is-link">Sign Up</button>
+          </div>
+          <div class="control">
+            <button id="log-in" class="button is-primary">Log In</button>
+          </div>
+        </div>
       </div>
 
-      <div class="columns is-centered">
-        <div class="column is-half">
-          <div class="box has-text-centered">
-            <h1 class="title is-3">📝 Secure NotesApp</h1>
-
-            <!-- Auth Form -->
-            <div id="auth-form">
-              <div class="field">
-                <p class="control has-icons-left">
-                  <input class="input" type="email" id="auth-email" placeholder="Email">
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                  </span>
-                </p>
-              </div>
-              <div class="field">
-                <p class="control has-icons-left">
-                  <input class="input" type="password" id="auth-password" placeholder="Password">
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-lock"></i>
-                  </span>
-                </p>
-              </div>
-              <div class="field is-grouped is-justify-content-center">
-                <button id="log-in" class="button is-success">Login</button>
-              </div>
-              <p id="user-email" class="has-text-grey mt-2"></p>
-            </div>
+      <!-- User & Notes Section -->
+      <div id="notes-section" style="display:none;">
+        <div class="level mb-4">
+          <div class="level-left">
+            <div id="user-email" class="level-item"></div>
           </div>
-
-          <!-- Message Form -->
-          <form id="message-form" class="box" style="display:none;">
-            <h2 class="subtitle is-4">Create a New Note</h2>
-            <div class="field">
-              <textarea class="textarea" id="message-input" placeholder="Type your note..." required></textarea>
-            </div>
-            <div class="field is-grouped">
-              <input class="input is-expanded" type="text" id="note-tag" placeholder="Tag (e.g. work, idea)" />
-              <input type="color" id="note-color" class="input ml-2" value="#ffffff" />
-              <button type="submit" class="button is-success ml-2">Save</button>
-            </div>
-          </form>
-
-          <!-- Search and Messages -->
-          <div class="box">
-            <h2 class="subtitle is-4">Your Notes</h2>
-            <input class="input is-rounded" type="text" id="search-input" placeholder="Search notes..." />
-            <div id="loading" class="has-text-centered mt-4" style="display:none;">Loading...</div>
-            <div id="message-list" class="mt-4"></div>
+          <div class="level-right">
+            <button id="sign-out" class="button is-danger">Sign Out</button>
           </div>
-
         </div>
+
+        <!-- New Note Form -->
+        <form id="message-form" class="box">
+          <div class="field">
+            <label class="label">New Note</label>
+            <div class="control">
+              <textarea
+                id="message-input"
+                class="textarea"
+                placeholder="What’s on your mind?"
+                maxlength="500"
+              ></textarea>
+            </div>
+            <p class="help">Max 500 characters</p>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button type="submit" class="button is-primary">Send</button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Search -->
+        <div class="field">
+          <div class="control">
+            <input
+              id="search-input"
+              class="input"
+              type="text"
+              placeholder="Search notes…"
+            />
+          </div>
+        </div>
+
+        <!-- Notes List -->
+        <div id="loading" style="display:none;">Loading…</div>
+        <div id="message-list"></div>
       </div>
     </div>
   </section>
 
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Edit Note</p>
+        <button class="delete" aria-label="close" id="edit-close"></button>
+      </header>
+      <section class="modal-card-body">
+        <textarea
+          id="edit-input"
+          class="textarea"
+          maxlength="500"
+        ></textarea>
+        <p class="help" id="edit-help">0/500</p>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" id="edit-save">Save</button>
+        <button class="button" id="edit-cancel">Cancel</button>
+      </footer>
+    </div>
+  </div>
+
   <script src="app.js"></script>
 </body>
-
 </html>
