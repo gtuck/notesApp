@@ -35,10 +35,10 @@ let currentUser   = null;
 let editMessageId = null;
 
 // ----- Helpers -----
-function showToast(msg, type = 'is-info') {
+function showToast(msg, type = 'is-primary is-light') {
   toastContainer.textContent = msg;
   toastContainer.className = `notification ${type}`;
-  toastContainer.style.display = 'block';
+  // toastContainer.style.display = 'block';
   setTimeout(() => (toastContainer.style.display = 'none'), 3000);
 }
 
@@ -50,12 +50,12 @@ function closeModal() {
 signUpBtn.addEventListener('click', async () => {
   const email = emailInput.value.trim();
   const pass  = passwordInput.value.trim();
-  if (!email || !pass) return showToast('Enter email & password', 'is-danger');
+  if (!email || !pass) return showToast('Enter email & password', 'is-danger is-light');
 
   try {
     const { error } = await client.auth.signUp({ email, password: pass });
     if (error) throw error;
-    showToast('Account created! Check your inbox.', 'is-success');
+    showToast('Account created! Check your inbox.', 'is-success is-light');
   } catch (err) {
     showToast(err.message, 'is-danger');
   }
@@ -64,13 +64,13 @@ signUpBtn.addEventListener('click', async () => {
 logInBtn.addEventListener('click', async () => {
   const email = emailInput.value.trim();
   const pass  = passwordInput.value.trim();
-  if (!email || !pass) return showToast('Enter email & password', 'is-danger');
+  if (!email || !pass) return showToast('Enter email & password', 'is-danger is-light');
 
   try {
     const { error } = await client.auth.signInWithPassword({ email, password: pass });
     if (error) throw error;
   } catch (err) {
-    showToast(err.message, 'is-danger');
+    showToast(err.message, 'is-danger is-light');
   }
 });
 
@@ -83,7 +83,7 @@ signOutBtn.addEventListener('click', async () => {
     }
   } catch (err) {
     console.error('Sign‑out error (ignored if no session):', err);
-    showToast(`Sign‑out failed: ${err.message}`, 'is-danger');
+    showToast(`Sign‑out failed: ${err.message}`, 'is-danger is-light');
   } finally {
     // Always reload, even if the session was already gone
     location.reload();
@@ -210,9 +210,9 @@ messageForm.addEventListener('submit', async e => {
   const color   = colorInput.value;
   const btn     = messageForm.querySelector('button[type="submit"]');
 
-  if (!content) return showToast('Note can’t be empty', 'is-danger');
-  if (content.length > 500) return showToast('Max 500 characters', 'is-danger');
-  if (tag.length > 50)        return showToast('Max 50 chars for tag', 'is-danger');
+  if (!content) return showToast('Note can’t be empty', 'is-danger is-light');
+  if (content.length > 500) return showToast('Max 500 characters', 'is-danger is-light');
+  if (tag.length > 50)        return showToast('Max 50 chars for tag', 'is-danger is-light');
 
   btn.classList.add('is-loading');
   try {
@@ -221,14 +221,14 @@ messageForm.addEventListener('submit', async e => {
       .insert([{ content, tag, color, user_id: currentUser.id }]);
     if (error) throw error;
 
-    showToast('Note added', 'is-success');
+    showToast('Note added', 'is-success is-light');
     messageInput.value = '';
     tagInput.value     = '';
     colorInput.value   = '#ffffff';
     loadMessages();
   } catch (err) {
     console.error(err);
-    showToast('Send failed', 'is-danger');
+    showToast('Send failed', 'is-danger is-light');
   } finally {
     btn.classList.remove('is-loading');
   }
@@ -247,9 +247,9 @@ editSave.addEventListener('click', async () => {
   const newTag     = editTagInput.value.trim();
   const newColor   = editColorInput.value;
 
-  if (!newContent) return showToast('Note can’t be empty', 'is-danger');
-  if (newContent.length > 500) return showToast('Max 500 characters', 'is-danger');
-  if (newTag.length > 50)        return showToast('Max 50 chars for tag', 'is-danger');
+  if (!newContent) return showToast('Note can’t be empty', 'is-danger is-light');
+  if (newContent.length > 500) return showToast('Max 500 characters', 'is-danger is-light');
+  if (newTag.length > 50)        return showToast('Max 50 chars for tag', 'is-danger is-light');
 
   editSave.classList.add('is-loading');
   try {
@@ -259,12 +259,12 @@ editSave.addEventListener('click', async () => {
       .eq('id', editMessageId);
     if (error) throw error;
 
-    showToast('Note updated', 'is-success');
+    showToast('Note updated', 'is-success is-light');
     closeModal();
     loadMessages();
   } catch (err) {
     console.error(err);
-    showToast('Update failed', 'is-danger');
+    showToast('Update failed', 'is-danger is-light');
   } finally {
     editSave.classList.remove('is-loading');
   }
