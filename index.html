@@ -1,10 +1,10 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>📝 Secure NotesApp</title>
-  <!-- Bulma CSS -->
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
@@ -12,7 +12,6 @@
   <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
-    /* Toast positioning */
     #toast-container {
       position: fixed;
       top: 1rem;
@@ -85,6 +84,25 @@
             <p class="help">Max 500 characters</p>
           </div>
           <div class="field">
+            <label class="label">Tag</label>
+            <div class="control">
+              <input
+                id="note-tag"
+                class="input"
+                type="text"
+                placeholder="Tag (optional)"
+                maxlength="50"
+              />
+            </div>
+            <p class="help">Max 50 characters</p>
+          </div>
+          <div class="field">
+            <label class="label">Color</label>
+            <div class="control">
+              <input id="note-color" type="color" value="#ffffff" />
+            </div>
+          </div>
+          <div class="field">
             <div class="control">
               <button type="submit" class="button is-primary">Send</button>
             </div>
@@ -119,12 +137,31 @@
         <button class="delete" aria-label="close" id="edit-close"></button>
       </header>
       <section class="modal-card-body">
-        <textarea
-          id="edit-input"
-          class="textarea"
-          maxlength="500"
-        ></textarea>
-        <p class="help" id="edit-help">0/500</p>
+        <div class="field">
+          <label class="label">Content</label>
+          <div class="control">
+            <textarea id="edit-input" class="textarea" maxlength="500"></textarea>
+          </div>
+          <p class="help" id="edit-help">0/500</p>
+        </div>
+        <div class="field">
+          <label class="label">Tag</label>
+          <div class="control">
+            <input
+              id="edit-tag"
+              class="input"
+              type="text"
+              maxlength="50"
+            />
+          </div>
+          <p class="help">Max 50 characters</p>
+        </div>
+        <div class="field">
+          <label class="label">Color</label>
+          <div class="control">
+            <input id="edit-color" type="color" />
+          </div>
+        </div>
       </section>
       <footer class="modal-card-foot">
         <button class="button is-success" id="edit-save">Save</button>
