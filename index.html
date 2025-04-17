@@ -5,20 +5,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>📝 Secure NotesApp</title>
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
-  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css" />
   <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
-    #toast-container {
+/*     #toast-container {
       position: fixed;
       top: 1rem;
       right: 1rem;
       z-index: 1000;
       display: none;
-    }
+    } */
   </style>
 </head>
 <body>
@@ -27,7 +24,10 @@
       <h1 class="title is-3 has-text-centered">📝 Secure NotesApp</h1>
 
       <!-- Toast Notification -->
-      <div id="toast-container" class="notification"></div>
+<!--       <div id="toast-container" class="notification"></div> -->
+      <div id="toast-container" class="notification is-link is-light">
+        <button class="delete"></button>
+      </div>
 
       <!-- Auth Form -->
       <div id="auth-form" class="box">
